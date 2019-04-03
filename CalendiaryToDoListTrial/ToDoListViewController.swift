@@ -10,11 +10,18 @@ import UIKit
 
 class ToDoListViewController: UITableViewController {
 
+    let defaults = UserDefaults.standard
+    
+    
     var itemArray = ["List 1", "List 2", "List 3"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        if let items = defaults.array(forKey: "CalendoListArray") as? [String] {
+            itemArray = items
+        }
+
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -51,6 +58,7 @@ class ToDoListViewController: UITableViewController {
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             //What will happen once the user has pressed the ADD ITEM alert on UIAlert
             self.itemArray.append(textField.text!)
+            self.defaults.set(self.itemArray, forKey: "CalendoListArray")
             
             self.tableView.reloadData()
             
